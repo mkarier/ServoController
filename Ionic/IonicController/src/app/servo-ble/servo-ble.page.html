@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>ServoBle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngFor="let device of devices"> 
+   <button ion-item (click)="startControl(device)">
+     <h2>{{ device.name || 'Unnamed' }}</h2>
+     <p>{{ device.id }}</p>
+     <p>RSSI: {{ device.rssi }}</p>
+   </button>  
+  </ion-list> 
+</ion-content>
+
+<ion-footer>
+ <ion-toolbar>
+   <p>{{ statusMessage }}</p>
+ </ion-toolbar>
+</ion-footer>

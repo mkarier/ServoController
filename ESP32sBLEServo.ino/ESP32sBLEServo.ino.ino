@@ -53,19 +53,30 @@ int servoPin = 13;
 
 class MyServerCallback : public BLEServerCallbacks {
   void onConnect(BLEServer* pServer){
-
+    Serial.println("Connected");
+    myservo.write(0);
   }//end of onConnect
 };//end of servercallbacks
 
 class MyCharacteristicCallback : public BLECharacteristicCallbacks {
   void onRead(BLECharacteristic* pCharacteristic, esp_ble_gatts_cb_param_t* param)
   {
-
+    std::string value = pCharacteristic->getValue();
+    for(int i = 0; i < value.length(); i++)
+      Serial.print(value[i]); 
+    Serial.println(****); 
+    myservo.write(std::stoi(value));
   }//end of on read
+
+  void onWrite(BLECharacteristic* pCharacteristic, esp_ble_gatts_cb_param_t* param)
+  {
+
+  }
 };//end of characteristic callback 
 
 void setup() {
 	// Allow allocation of all timers
+  Serial.begin(9600);
   BLEDevice::init("HeaterServo");
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
@@ -84,6 +95,7 @@ void setup() {
   pAdvertising->setScanResponse(false);
   pAdvertising->setMinPreferred(0x06);  // functions that help with iPhone connections issue
   //pAdvertising->setMinPreferred(0x1
+  pAdvertising->start();
 
 	ESP32PWM::allocateTimer(0);
 	ESP32PWM::allocateTimer(1);
@@ -95,12 +107,13 @@ void setup() {
 	// different servos may require different min/max settings
 	// for an accurate 0 to 180 sweep
   myservo.write(0);
+  Serial.println("Resetting the servo");
   delay(20);
 }//end of setup
  
 void loop() {
  
-	for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
+	/*for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
 		// in steps of 1 degree
 		myservo.write(pos);    // tell servo to go to position in variable 'pos'
 		delay(15);             // waits 15ms for the servo to reach the position
@@ -108,5 +121,5 @@ void loop() {
 	for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
 		myservo.write(pos);    // tell servo to go to position in variable 'pos'
 		delay(15);             // waits 15ms for the servo to reach the position
-	}
+	}*/
 }//end of loop

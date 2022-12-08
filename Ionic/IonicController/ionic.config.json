@@ -1,0 +1,7 @@
+{
+  "name": "IonicController",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
