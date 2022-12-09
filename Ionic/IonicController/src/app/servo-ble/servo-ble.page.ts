@@ -29,8 +29,10 @@ export class ServoBlePage implements OnInit {
   scan(){
     this.setStatus('Scanning for Bluetooth LE Devices')
     this.devices = [];
-    this.ble.scan([], 2000).subscribe(device => this.onDeviceDiscovered(device),
-    error => this.scanError(error) );
+    this.ble.scan([], 2000).subscribe({
+      next: (device) => this.onDeviceDiscovered(device),
+      error: (error) => this.scanError(error)
+    });
   }//end of scan
 
   onDeviceDiscovered(device: any){
@@ -58,6 +60,7 @@ export class ServoBlePage implements OnInit {
 
   startControl(device: any)
   {
+    console.log("selected device");
     this.navCtrl.navigateForward(['servo-controller', device]);
   }
 

@@ -6,11 +6,11 @@
 
 <ion-content>
   <ion-list *ngFor="let device of devices"> 
-   <button ion-item (click)="startControl(device)">
+   <ion-item [routerLink]="['servo-controller', device]">
      <h2>{{ device.name || 'Unnamed' }}</h2>
      <p>{{ device.id }}</p>
      <p>RSSI: {{ device.rssi }}</p>
-   </button>  
+   </ion-item>  
   </ion-list> 
 </ion-content>
 

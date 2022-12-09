@@ -64,13 +64,13 @@ class MyCharacteristicCallback : public BLECharacteristicCallbacks {
     std::string value = pCharacteristic->getValue();
     for(int i = 0; i < value.length(); i++)
       Serial.print(value[i]); 
-    Serial.println(****); 
+    Serial.println("****"); 
     myservo.write(std::stoi(value));
   }//end of on read
 
   void onWrite(BLECharacteristic* pCharacteristic, esp_ble_gatts_cb_param_t* param)
   {
-
+    Serial.println("Writing");
   }
 };//end of characteristic callback 
 
